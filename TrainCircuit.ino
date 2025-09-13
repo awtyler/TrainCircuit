@@ -10,6 +10,8 @@
 #define REED4 22
 #define REED5 28
 #define REED6 26
+#define REED7 50
+#define REED8 A3
 
 #define CALL1 9
 #define CALL2 15
@@ -17,6 +19,8 @@
 #define CALL4 23
 #define CALL5 29
 #define CALL6 27
+#define CALL7 52
+#define CALL8 A7
 
 #define STATION1 35
 #define STATION2 37
@@ -24,6 +28,8 @@
 #define STATION4 41
 #define STATION5 43
 #define STATION6 45
+#define STATION7 47
+#define STATION8 49
 
 #define STATION1A 10
 #define STATION2A 16
@@ -31,6 +37,9 @@
 #define STATION4A 24
 #define STATION5A 30
 #define STATION6A 32
+#define STATION7A 51
+#define STATION8A A11
+
 
 #define TARGET1 34
 #define TARGET2 36
@@ -38,6 +47,8 @@
 #define TARGET4 40
 #define TARGET5 42
 #define TARGET6 44
+#define TARGET7 46
+#define TARGET8 48
 
 #define TARGET1A 11
 #define TARGET2A 17
@@ -45,6 +56,8 @@
 #define TARGET4A 25
 #define TARGET5A 31
 #define TARGET6A 33
+#define TARGET7A 53
+#define TARGET8A A15
 
 
 #define LED 13
@@ -58,7 +71,7 @@
 //#define TRAIN_RELAY_ON LOW
 //#define TRAIN_RELAY_OFF HIGH
 
-const int stationCount = 6;
+const int stationCount = 8;
 
 const int reedDebounce = 1000;
 const int callDebounce = 250;
@@ -66,13 +79,13 @@ const int callDebounce = 250;
 int currentLocation = 0;
 int targetLocation = -1;
 
-const int stations[] = {STATION1, STATION2, STATION3, STATION4, STATION5, STATION6};
-const int targets[] = {TARGET1, TARGET2, TARGET3, TARGET4, TARGET5, TARGET6};
-const int stationsa[] = {STATION1A, STATION2A, STATION3A, STATION4A, STATION5A, STATION6A};
-const int targetsa[] = {TARGET1A, TARGET2A, TARGET3A, TARGET4A, TARGET5A, TARGET6A};
+const int stations[] = {STATION1, STATION2, STATION3, STATION4, STATION5, STATION6, STATION7, STATION8};
+const int targets[] = {TARGET1, TARGET2, TARGET3, TARGET4, TARGET5, TARGET6, TARGET7, TARGET8};
+const int stationsa[] = {STATION1A, STATION2A, STATION3A, STATION4A, STATION5A, STATION6A, STATION7A, STATION8A};
+const int targetsa[] = {TARGET1A, TARGET2A, TARGET3A, TARGET4A, TARGET5A, TARGET6A, TARGET7A, TARGET8A};
 
-const int reeds[] = {REED1, REED2, REED3, REED4, REED5, REED6};
-const int calls[] = {CALL1, CALL2, CALL3, CALL4, CALL5, CALL6};
+const int reeds[] = {REED1, REED2, REED3, REED4, REED5, REED6, REED7, REED8};
+const int calls[] = {CALL1, CALL2, CALL3, CALL4, CALL5, CALL6, CALL7, CALL8};
 
 void setup() {
     Serial.begin(115200);
