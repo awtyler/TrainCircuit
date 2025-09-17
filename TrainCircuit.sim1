@@ -1,7 +1,7 @@
-<circuit version="1.1.0-SR1" rev="2005" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+<circuit version="1.1.0-SR0" rev="2278" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
 
 <item itemtype="Subcircuit" CircId="Mega-1" mainComp="false" Show_id="true" Show_Val="false" Pos="-228,-284" rotation="-270" hflip="1" vflip="1" label="Mega-1" idLabPos="63.1124,42.4936" labelrot="0" valLabPos="-16,20" valLabRot="0" Logic_Symbol="false">
-<mainCompProps MainCompId="mega2560-63" Frequency="16 MHz" Program="TrainCircuit.hex" Auto_Load="false" saveEepr="true" MainMcu="true" SerialMon="-1" />
+<mainCompProps MainCompId="mega2560-63" Frequency="16 MHz" Program="TrainCircuit.hex" Auto_Load="false" saveEepr="true" SerialMon="-1" />
 </item>
 
 <item itemtype="LedBar" CircId="LedBar-6" mainComp="false" Show_id="true" Show_Val="false" Pos="400,104" rotation="90" hflip="1" vflip="1" label="Target" idLabPos="11.7057,15.2595" labelrot="-90" valLabPos="-16,-56" valLabRot="0" Color="White" Size="8 _Leds" Grounded="true" Threshold="3.3 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
@@ -332,31 +332,31 @@
 
 <item itemtype="Push" CircId="Push-238" mainComp="false" Show_id="true" Show_Val="false" Pos="624,276" rotation="0" hflip="1" vflip="1" label="Call 8" idLabPos="-12.2827,22.0658" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
 
-<item itemtype="Tunnel" CircId="Tunnel-239" mainComp="false" Show_id="false" Show_Val="false" Pos="576,176" rotation="90" hflip="1" vflip="1" label="Tunnel-239" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN51" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-239" mainComp="false" Show_id="false" Show_Val="false" Pos="628,176" rotation="90" hflip="1" vflip="1" label="Tunnel-239" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN51" IsBus="false" />
 
 <item itemtype="Header" CircId="Header-240" mainComp="false" Show_id="false" Show_Val="false" Pos="568,192" rotation="90" hflip="1" vflip="1" label="Header-240" idLabPos="-16,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Size="5 _Pins" Down="false" />
 
 <item itemtype="Header" CircId="Header-241" mainComp="false" Show_id="false" Show_Val="false" Pos="620,192" rotation="90" hflip="1" vflip="1" label="Header-241" idLabPos="-16,-44" labelrot="0" valLabPos="-16,20" valLabRot="0" Size="5 _Pins" Down="false" />
 
-<item itemtype="Tunnel" CircId="Tunnel-242" mainComp="false" Show_id="false" Show_Val="false" Pos="636,176" rotation="90" hflip="1" vflip="1" label="Tunnel-242" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA15" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-242" mainComp="false" Show_id="false" Show_Val="false" Pos="584,176" rotation="90" hflip="1" vflip="1" label="Tunnel-242" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA15" IsBus="false" />
 
-<item itemtype="Tunnel" CircId="Tunnel-245" mainComp="false" Show_id="false" Show_Val="false" Pos="620,176" rotation="90" hflip="1" vflip="1" label="Tunnel-245" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA7" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-245" mainComp="false" Show_id="false" Show_Val="false" Pos="568,176" rotation="90" hflip="1" vflip="1" label="Tunnel-245" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA7" IsBus="false" />
 
-<item itemtype="Tunnel" CircId="Tunnel-246" mainComp="false" Show_id="false" Show_Val="false" Pos="592,176" rotation="90" hflip="1" vflip="1" label="Tunnel-246" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="GND" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-246" mainComp="false" Show_id="false" Show_Val="false" Pos="644,176" rotation="90" hflip="1" vflip="1" label="Tunnel-246" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="GND" IsBus="false" />
 
-<item itemtype="Tunnel" CircId="Tunnel-247" mainComp="false" Show_id="false" Show_Val="false" Pos="568,176" rotation="90" hflip="1" vflip="1" label="Tunnel-247" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN52" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-247" mainComp="false" Show_id="false" Show_Val="false" Pos="620,176" rotation="90" hflip="1" vflip="1" label="Tunnel-247" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN52" IsBus="false" />
 
-<item itemtype="Tunnel" CircId="Tunnel-248" mainComp="false" Show_id="false" Show_Val="false" Pos="612,176" rotation="90" hflip="1" vflip="1" label="Tunnel-248" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA3" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-248" mainComp="false" Show_id="false" Show_Val="false" Pos="560,176" rotation="90" hflip="1" vflip="1" label="Tunnel-248" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA3" IsBus="false" />
 
 <item itemtype="Push" CircId="Push-249" mainComp="false" Show_id="true" Show_Val="false" Pos="624,324" rotation="0" hflip="1" vflip="1" label="Reed 8" idLabPos="-13.5884,22.3628" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
 
-<item itemtype="Tunnel" CircId="Tunnel-250" mainComp="false" Show_id="false" Show_Val="false" Pos="644,176" rotation="90" hflip="1" vflip="1" label="Tunnel-250" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="GND" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-250" mainComp="false" Show_id="false" Show_Val="false" Pos="592,176" rotation="90" hflip="1" vflip="1" label="Tunnel-250" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="GND" IsBus="false" />
 
-<item itemtype="Tunnel" CircId="Tunnel-251" mainComp="false" Show_id="false" Show_Val="false" Pos="584,176" rotation="90" hflip="1" vflip="1" label="Tunnel-251" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN53" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-251" mainComp="false" Show_id="false" Show_Val="false" Pos="636,176" rotation="90" hflip="1" vflip="1" label="Tunnel-251" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN53" IsBus="false" />
 
 <item itemtype="Push" CircId="Push-252" mainComp="false" Show_id="true" Show_Val="false" Pos="572,324" rotation="0" hflip="1" vflip="1" label="Reed 7" idLabPos="-16.9331,22.8088" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
 
-<item itemtype="Tunnel" CircId="Tunnel-253" mainComp="false" Show_id="false" Show_Val="false" Pos="560,176" rotation="90" hflip="1" vflip="1" label="Tunnel-253" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN50" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-253" mainComp="false" Show_id="false" Show_Val="false" Pos="612,176" rotation="90" hflip="1" vflip="1" label="Tunnel-253" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PIN50" IsBus="false" />
 
 <item itemtype="Led" CircId="Led-254" mainComp="false" Show_id="false" Show_Val="false" Pos="624,252" rotation="90" hflip="1" vflip="1" label="Led-254" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="White" Grounded="true" Threshold="3.3 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
 
@@ -364,7 +364,7 @@
 
 <item itemtype="Push" CircId="Push-256" mainComp="false" Show_id="true" Show_Val="false" Pos="572,276" rotation="0" hflip="1" vflip="1" label="Call 7" idLabPos="-13.1746,22.0658" labelrot="0" valLabPos="-16,20" valLabRot="0" Norm_Close="false" Poles="1" />
 
-<item itemtype="Tunnel" CircId="Tunnel-257" mainComp="false" Show_id="false" Show_Val="false" Pos="628,176" rotation="90" hflip="1" vflip="1" label="Tunnel-257" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA11" IsBus="false" />
+<item itemtype="Tunnel" CircId="Tunnel-257" mainComp="false" Show_id="false" Show_Val="false" Pos="576,176" rotation="90" hflip="1" vflip="1" label="Tunnel-257" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Name="PINA11" IsBus="false" />
 
 <item itemtype="Led" CircId="Led-258" mainComp="false" Show_id="false" Show_Val="false" Pos="624,220" rotation="90" hflip="1" vflip="1" label="Led-258" idLabPos="-16,-24" labelrot="0" valLabPos="-16,20" valLabRot="0" Color="Green" Grounded="true" Threshold="3.3 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
 
@@ -814,13 +814,7 @@
 
 <item itemtype="Connector" uid="Connector-295" startpinid="Header-241-pin12" endpinid="Push-249-pinP0" pointList="612,192,600,192,600,324,608,324" />
 
-<item itemtype="Connector" uid="Connector-296" startpinid="Tunnel-245-pin" endpinid="Header-241-pin3" pointList="620,176,620,184" />
-
 <item itemtype="Connector" uid="Connector-297" startpinid="Header-240-pin8" endpinid="Node-244-1" pointList="592,192,592,252,596,252,596,276" />
-
-<item itemtype="Connector" uid="Connector-298" startpinid="Tunnel-239-pin" endpinid="Header-240-pin2" pointList="576,176,576,184" />
-
-<item itemtype="Connector" uid="Connector-299" startpinid="Tunnel-250-pin" endpinid="Header-241-pin0" pointList="644,176,644,184" />
 
 <item itemtype="Connector" uid="Connector-300" startpinid="Header-240-pin10" endpinid="Led-259-lPin" pointList="576,192,576,204,572,204" />
 
@@ -832,19 +826,11 @@
 
 <item itemtype="Connector" uid="Connector-304" startpinid="Header-241-pin10" endpinid="Led-258-lPin" pointList="628,192,628,204,624,204" />
 
-<item itemtype="Connector" uid="Connector-305" startpinid="Tunnel-251-pin" endpinid="Header-240-pin1" pointList="584,176,584,184" />
-
-<item itemtype="Connector" uid="Connector-306" startpinid="Tunnel-247-pin" endpinid="Header-240-pin3" pointList="568,176,568,184" />
-
 <item itemtype="Connector" uid="Connector-307" startpinid="Header-241-pin11" endpinid="Push-238-pinP0" pointList="620,192,620,200,608,200,608,276" />
 
 <item itemtype="Connector" uid="Connector-308" startpinid="Header-240-pin9" endpinid="Led-255-lPin" pointList="584,192,584,236,572,236" />
 
 <item itemtype="Connector" uid="Connector-309" startpinid="Push-238-switch0pinN" endpinid="Node-243-0" pointList="640,276,648,276" />
-
-<item itemtype="Connector" uid="Connector-310" startpinid="Tunnel-242-pin" endpinid="Header-241-pin1" pointList="636,176,636,184" />
-
-<item itemtype="Connector" uid="Connector-311" startpinid="Tunnel-257-pin" endpinid="Header-241-pin2" pointList="628,176,628,184" />
 
 <item itemtype="Connector" uid="Connector-312" startpinid="Header-240-pin12" endpinid="Push-252-pinP0" pointList="560,192,548,192,548,324,556,324" />
 
@@ -852,13 +838,7 @@
 
 <item itemtype="Connector" uid="Connector-314" startpinid="Header-241-pin8" endpinid="Node-243-1" pointList="644,192,644,252,648,252,648,276" />
 
-<item itemtype="Connector" uid="Connector-315" startpinid="Tunnel-248-pin" endpinid="Header-241-pin4" pointList="612,176,612,184" />
-
 <item itemtype="Connector" uid="Connector-316" startpinid="Push-256-switch0pinN" endpinid="Node-244-0" pointList="588,276,596,276" />
-
-<item itemtype="Connector" uid="Connector-317" startpinid="Tunnel-246-pin" endpinid="Header-240-pin0" pointList="592,176,592,184" />
-
-<item itemtype="Connector" uid="Connector-318" startpinid="Tunnel-253-pin" endpinid="Header-240-pin4" pointList="560,176,560,184" />
 
 <item itemtype="Connector" uid="Connector-319" startpinid="Tunnel-145-pin" endpinid="LedBar-6-led7-pinP" pointList="368,76,368,88" />
 
@@ -931,5 +911,25 @@
 <item itemtype="Connector" uid="Connector-367" startpinid="Header-18-pin12" endpinid="Push-12-pinP0" pointList="248,192,236,192,236,324,244,324" />
 
 <item itemtype="Connector" uid="Connector-368" startpinid="Header-18-pin9" endpinid="Led-11-lPin" pointList="272,192,272,236,260,236" />
+
+<item itemtype="Connector" uid="Connector-369" startpinid="Tunnel-248-pin" endpinid="Header-240-pin4" pointList="560,176,560,184" />
+
+<item itemtype="Connector" uid="Connector-370" startpinid="Tunnel-245-pin" endpinid="Header-240-pin3" pointList="568,176,568,184" />
+
+<item itemtype="Connector" uid="Connector-371" startpinid="Tunnel-257-pin" endpinid="Header-240-pin2" pointList="576,176,576,184" />
+
+<item itemtype="Connector" uid="Connector-372" startpinid="Tunnel-242-pin" endpinid="Header-240-pin1" pointList="584,176,584,184" />
+
+<item itemtype="Connector" uid="Connector-373" startpinid="Tunnel-250-pin" endpinid="Header-240-pin0" pointList="592,176,592,184" />
+
+<item itemtype="Connector" uid="Connector-374" startpinid="Tunnel-253-pin" endpinid="Header-241-pin4" pointList="612,176,612,184" />
+
+<item itemtype="Connector" uid="Connector-375" startpinid="Header-241-pin3" endpinid="Tunnel-247-pin" pointList="620,184,620,176" />
+
+<item itemtype="Connector" uid="Connector-376" startpinid="Tunnel-239-pin" endpinid="Header-241-pin2" pointList="628,176,628,184" />
+
+<item itemtype="Connector" uid="Connector-377" startpinid="Header-241-pin1" endpinid="Tunnel-251-pin" pointList="636,184,636,176" />
+
+<item itemtype="Connector" uid="Connector-378" startpinid="Tunnel-246-pin" endpinid="Header-241-pin0" pointList="644,176,644,184" />
 
 </circuit>

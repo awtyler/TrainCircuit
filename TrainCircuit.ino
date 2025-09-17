@@ -28,8 +28,8 @@
 #define STATION4 41
 #define STATION5 43
 #define STATION6 45
-#define STATION8 47
 #define STATION7 49
+#define STATION8 47
 
 #define STATION1A 10
 #define STATION2A 16
@@ -37,8 +37,8 @@
 #define STATION4A 24
 #define STATION5A 30
 #define STATION6A 32
-#define STATION8A 51
 #define STATION7A A11
+#define STATION8A 51
 
 
 #define TARGET1 34
@@ -47,8 +47,8 @@
 #define TARGET4 40
 #define TARGET5 42
 #define TARGET6 44
-#define TARGET8 46
 #define TARGET7 48
+#define TARGET8 46
 
 #define TARGET1A 12
 #define TARGET2A 17
@@ -56,8 +56,8 @@
 #define TARGET4A 25
 #define TARGET5A 31
 #define TARGET6A 33
-#define TARGET8A 53
 #define TARGET7A A15
+#define TARGET8A 53
 
 
 #define LED 13
@@ -66,8 +66,8 @@
 #define UNPRESSED HIGH
 
 #define LOCATION_LIGHTS_ENABLED 1
-//#define TRAIN_RELAY_ON HIGH
-//#define TRAIN_RELAY_OFF LOW
+// #define TRAIN_RELAY_ON HIGH
+// #define TRAIN_RELAY_OFF LOW
 #define TRAIN_RELAY_ON LOW
 #define TRAIN_RELAY_OFF HIGH
 
@@ -87,6 +87,16 @@ const int targetsa[] = {TARGET1A, TARGET2A, TARGET3A, TARGET4A, TARGET5A, TARGET
 const int reeds[] = {REED1, REED2, REED3, REED4, REED5, REED6, REED7, REED8};
 const int calls[] = {CALL1, CALL2, CALL3, CALL4, CALL5, CALL6, CALL7, CALL8};
 
+// Debounce and state tracking arrays
+unsigned long lastCallDebounceTime[stationCount] = {0};
+unsigned long lastReedDebounceTime[stationCount] = {0};
+const unsigned long callDebounceDelay = 50;
+const unsigned long reedDebounceDelay = 50;
+int lastCallButtonState[stationCount];
+int callButtonState[stationCount];
+int lastReedState[stationCount];
+int reedState[stationCount];
+
 void setup() {
     Serial.begin(115200);
 
@@ -102,6 +112,10 @@ void setup() {
     for(int i = 0; i < stationCount; i++) {
         pinMode(reeds[i], INPUT_PULLUP);
         pinMode(calls[i], INPUT_PULLUP);
+        lastCallButtonState[i] = digitalRead(calls[i]);
+        callButtonState[i] = lastCallButtonState[i];
+        lastReedState[i] = digitalRead(reeds[i]);
+        reedState[i] = lastReedState[i];
 
         if(LOCATION_LIGHTS_ENABLED == 1) {
             pinMode(stations[i], OUTPUT);
@@ -118,30 +132,44 @@ void setup() {
 }
 
 void loop() {
-    int delayTime = 0;
-    ledOff();
-    // Handle reed arrivals
+    // Handle reed arrivals (state change detection)
     for(int i = 0; i < stationCount; i++) {
-        if(digitalRead(reeds[i]) == PRESSED) {
-            if(i != currentLocation) {
-                arrived(i);
-                ledOn();
-                delayTime = reedDebounce;
+        int reading = digitalRead(reeds[i]);
+        if (reading != lastReedState[i]) {
+            lastReedDebounceTime[i] = millis();
+        }
+        if ((millis() - lastReedDebounceTime[i]) > reedDebounceDelay) {
+            if (reading != reedState[i]) {
+                reedState[i] = reading;
+                if (reedState[i] == PRESSED && i != currentLocation) {
+                    arrived(i);
+                    ledOn();
+                }
             }
         }
+        lastReedState[i] = reading;
     }
 
-    // Handle call buttons
+    // Handle call buttons (state change detection)
     for(int i = 0; i < stationCount; i++) {
-      if(digitalRead(calls[i]) == PRESSED) {
-          if(i == targetLocation) {
-              allStop();
-          } else {
-              goTo(i);
-          }
-          ledOn();
-          delayTime = callDebounce;
-      }
+        int reading = digitalRead(calls[i]);
+        if (reading != lastCallButtonState[i]) {
+            lastCallDebounceTime[i] = millis();
+        }
+        if ((millis() - lastCallDebounceTime[i]) > callDebounceDelay) {
+            if (reading != callButtonState[i]) {
+                callButtonState[i] = reading;
+                if (callButtonState[i] == PRESSED) {
+                    if(i == targetLocation) {
+                        allStop();
+                    } else {
+                        goTo(i);
+                    }
+                    ledOn();
+                }
+            }
+        }
+        lastCallButtonState[i] = reading;
     }
     
     if(targetLocation >= 0 && targetLocation != currentLocation) {
@@ -150,12 +178,8 @@ void loop() {
         allStop();
     }
 
-    // Uncomment if you want to blink when not moving
-    // if(targetLocation < 0) {
-    //   blinkFast(currentLocation);
-    // }
     updateStatusLights();
-    delay(delayTime);
+    // No more delay(delayTime) needed!
 }
 
 void startupLights() {
