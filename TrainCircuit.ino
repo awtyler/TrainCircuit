@@ -10,8 +10,8 @@
 #define REED4 22
 #define REED5 28
 #define REED6 26
-#define REED7 50
-#define REED8 A3
+#define REED8 50
+#define REED7 A3
 
 #define CALL1 9
 #define CALL2 15
@@ -19,8 +19,8 @@
 #define CALL4 23
 #define CALL5 29
 #define CALL6 27
-#define CALL7 52
-#define CALL8 A7
+#define CALL8 52
+#define CALL7 A7
 
 #define STATION1 35
 #define STATION2 37
@@ -28,8 +28,8 @@
 #define STATION4 41
 #define STATION5 43
 #define STATION6 45
-#define STATION7 47
-#define STATION8 49
+#define STATION8 47
+#define STATION7 49
 
 #define STATION1A 10
 #define STATION2A 16
@@ -37,8 +37,8 @@
 #define STATION4A 24
 #define STATION5A 30
 #define STATION6A 32
-#define STATION7A 51
-#define STATION8A A11
+#define STATION8A 51
+#define STATION7A A11
 
 
 #define TARGET1 34
@@ -47,17 +47,17 @@
 #define TARGET4 40
 #define TARGET5 42
 #define TARGET6 44
-#define TARGET7 46
-#define TARGET8 48
+#define TARGET8 46
+#define TARGET7 48
 
-#define TARGET1A 11
+#define TARGET1A 12
 #define TARGET2A 17
 #define TARGET3A 21
 #define TARGET4A 25
 #define TARGET5A 31
 #define TARGET6A 33
-#define TARGET7A 53
-#define TARGET8A A15
+#define TARGET8A 53
+#define TARGET7A A15
 
 
 #define LED 13
@@ -66,12 +66,12 @@
 #define UNPRESSED HIGH
 
 #define LOCATION_LIGHTS_ENABLED 1
-#define TRAIN_RELAY_ON HIGH
-#define TRAIN_RELAY_OFF LOW
-//#define TRAIN_RELAY_ON LOW
-//#define TRAIN_RELAY_OFF HIGH
+//#define TRAIN_RELAY_ON HIGH
+//#define TRAIN_RELAY_OFF LOW
+#define TRAIN_RELAY_ON LOW
+#define TRAIN_RELAY_OFF HIGH
 
-const int stationCount = 8;
+const int stationCount = 7;
 
 const int reedDebounce = 1000;
 const int callDebounce = 250;
@@ -123,10 +123,10 @@ void loop() {
     // Handle reed arrivals
     for(int i = 0; i < stationCount; i++) {
         if(digitalRead(reeds[i]) == PRESSED) {
-            arrived(i);
-            ledOn();
-            if(currentLocation != targetLocation) {
-              delayTime = reedDebounce;
+            if(i != currentLocation) {
+                arrived(i);
+                ledOn();
+                delayTime = reedDebounce;
             }
         }
     }
@@ -168,9 +168,9 @@ void startupLights() {
             blink(targets[i], 1, delayAmount, 0);
         }
         
-        for(int i = 0; i < stationCount; i++) {
-            blink(stationsa[i], 1, delayAmount, 0);
-        }
+        // for(int i = 0; i < stationCount; i++) {
+        //     blink(stationsa[i], 1, delayAmount, 0);
+        // }
         for(int i = 0; i < stationCount; i++) {
             blink(targetsa[i], 1, delayAmount, 0);
         }
@@ -181,14 +181,14 @@ void startupLights() {
             digitalWrite(stationsa[i], HIGH);
             digitalWrite(targetsa[i], HIGH);
         }
-        delay(200);
+        delay(delayAmount);
         for(int i = 0; i < stationCount; i++) {
             digitalWrite(stations[i], LOW);
             digitalWrite(targets[i], LOW);
             digitalWrite(stationsa[i], LOW);
             digitalWrite(targetsa[i], LOW);
         }
-        delay(200);
+        delay(delayAmount);
     }
 }
 
@@ -225,7 +225,9 @@ bool isClose() {
 
 void allStop() {
     targetLocation = -1;
-    setTrain(false, false, false);
+    digitalWrite(REVERSE, LOW);
+    digitalWrite(SLOW, LOW);
+    digitalWrite(RUN, TRAIN_RELAY_OFF);
 }
 
 void updateStatusLights() {
@@ -293,8 +295,14 @@ void goTo(int location) {
 }
 
 void setTrain(bool go, bool reverse, bool slow) {
+    if(!go) {
+        allStop();
+        return;
+    }
+
     digitalWrite(REVERSE, reverse ? HIGH : LOW);
     digitalWrite(SLOW, slow ? HIGH : LOW);
+    // digitalWrite(SLOW, LOW);
     digitalWrite(RUN, go ? TRAIN_RELAY_ON : TRAIN_RELAY_OFF);
 }
 
