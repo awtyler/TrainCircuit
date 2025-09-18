@@ -59,6 +59,9 @@
 #define TARGET7A A15
 #define TARGET8A 53
 
+#define MANUAL_REV A4   // GREEN
+#define MANUAL_FST A8   // BLUE
+#define MANUAL_FWD A12 // BROWN
 
 #define LED 13
 
@@ -76,7 +79,8 @@ const int stationCount = 7;
 const int reedDebounce = 1000;
 const int callDebounce = 250;
 
-int currentLocation = 0;
+double currentLocation = -0.5;
+int lastLocation = 0;
 int targetLocation = -1;
 
 const int stations[] = {STATION1, STATION2, STATION3, STATION4, STATION5, STATION6, STATION7, STATION8};
@@ -91,7 +95,7 @@ const int calls[] = {CALL1, CALL2, CALL3, CALL4, CALL5, CALL6, CALL7, CALL8};
 unsigned long lastCallDebounceTime[stationCount] = {0};
 unsigned long lastReedDebounceTime[stationCount] = {0};
 const unsigned long callDebounceDelay = 50;
-const unsigned long reedDebounceDelay = 50;
+const unsigned long reedDebounceDelay = 200;
 int lastCallButtonState[stationCount];
 int callButtonState[stationCount];
 int lastReedState[stationCount];
@@ -132,87 +136,89 @@ void setup() {
 }
 
 void loop() {
-    // Handle reed arrivals (state change detection)
-    for(int i = 0; i < stationCount; i++) {
-        int reading = digitalRead(reeds[i]);
-        if (reading != lastReedState[i]) {
-            lastReedDebounceTime[i] = millis();
+    for (int i = 0; i < stationCount; i++) {
+        // Reed switch handling
+        if (debounceInput(reeds[i], lastReedState[i], lastReedDebounceTime[i], reedDebounceDelay, reedState[i])) {
+            if (reedState[i] == PRESSED && i != lastLocation) {
+                arrived(i);
+            }
         }
-        if ((millis() - lastReedDebounceTime[i]) > reedDebounceDelay) {
-            if (reading != reedState[i]) {
-                reedState[i] = reading;
-                if (reedState[i] == PRESSED && i != currentLocation) {
-                    arrived(i);
-                    ledOn();
+
+        // Call button handling
+        if (debounceInput(calls[i], lastCallButtonState[i], lastCallDebounceTime[i], callDebounceDelay, callButtonState[i])) {
+            if (callButtonState[i] == PRESSED) {
+                if (i == targetLocation) {
+                    allStop();
+                    Serial.print("All Stop: Target Location: ");
+                    Serial.print(targetLocation);
+                    Serial.print(" | Current Location: ");
+                    Serial.print(currentLocation);
+                    Serial.print(" | Last Location: ");
+                    Serial.println(lastLocation);
+                } else {
+                    Serial.print("New Target Location: ");
+                    Serial.print(i);
+                    Serial.print(" | Current Location: ");
+                    Serial.print(currentLocation);
+                    Serial.print(" | Last Location: ");
+                    Serial.println(lastLocation);
+                    goTo(i);
                 }
             }
         }
-        lastReedState[i] = reading;
     }
 
-    // Handle call buttons (state change detection)
-    for(int i = 0; i < stationCount; i++) {
-        int reading = digitalRead(calls[i]);
-        if (reading != lastCallButtonState[i]) {
-            lastCallDebounceTime[i] = millis();
-        }
-        if ((millis() - lastCallDebounceTime[i]) > callDebounceDelay) {
-            if (reading != callButtonState[i]) {
-                callButtonState[i] = reading;
-                if (callButtonState[i] == PRESSED) {
-                    if(i == targetLocation) {
-                        allStop();
-                    } else {
-                        goTo(i);
-                    }
-                    ledOn();
-                }
-            }
-        }
-        lastCallButtonState[i] = reading;
-    }
-    
-    if(targetLocation >= 0 && targetLocation != currentLocation) {
+    if (targetLocation >= 0 && targetLocation != currentLocation) {
         goTo(targetLocation);
     } else {
         allStop();
     }
 
     updateStatusLights();
-    // No more delay(delayTime) needed!
+}
+
+bool debounceInput(int pin, int &lastStableState, unsigned long &lastDebounceTime, unsigned long debounceDelay, int &currentState) {
+    int reading = digitalRead(pin);
+    unsigned long currentTime = millis();
+
+    if (reading != lastStableState) {
+        if (currentTime - lastDebounceTime > debounceDelay) {
+            lastStableState = reading;
+            lastDebounceTime = currentTime;
+            currentState = reading;
+
+            // Log only when a stable change is detected
+            Serial.print("Pin ");
+            Serial.print(pin);
+            Serial.print(" changed to ");
+            Serial.println(currentState);
+
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void startupLights() {
     if(LOCATION_LIGHTS_ENABLED == 1) {
         int delayAmount = 125;
-        for(int i = 0; i < stationCount; i++) {
-            blink(stations[i], 1, delayAmount, 0);
+        for(int i = 0; i < 3; i++) {        
+            for(int i = 0; i < stationCount; i++) {
+                digitalWrite(stations[i], HIGH);
+                digitalWrite(targets[i], HIGH);
+                digitalWrite(stationsa[i], HIGH);
+                digitalWrite(targetsa[i], HIGH);
+            }
+            delay(delayAmount);
+            for(int i = 0; i < stationCount; i++) {
+                digitalWrite(stations[i], LOW);
+                digitalWrite(targets[i], LOW);
+                digitalWrite(stationsa[i], LOW);
+                digitalWrite(targetsa[i], LOW);
+            }
+            delay(delayAmount);
         }
-        for(int i = 0; i < stationCount; i++) {
-            blink(targets[i], 1, delayAmount, 0);
-        }
-        
-        // for(int i = 0; i < stationCount; i++) {
-        //     blink(stationsa[i], 1, delayAmount, 0);
-        // }
-        for(int i = 0; i < stationCount; i++) {
-            blink(targetsa[i], 1, delayAmount, 0);
-        }
-        
-        for(int i = 0; i < stationCount; i++) {
-            digitalWrite(stations[i], HIGH);
-            digitalWrite(targets[i], HIGH);
-            digitalWrite(stationsa[i], HIGH);
-            digitalWrite(targetsa[i], HIGH);
-        }
-        delay(delayAmount);
-        for(int i = 0; i < stationCount; i++) {
-            digitalWrite(stations[i], LOW);
-            digitalWrite(targets[i], LOW);
-            digitalWrite(stationsa[i], LOW);
-            digitalWrite(targetsa[i], LOW);
-        }
-        delay(delayAmount);
     }
 }
 
@@ -244,7 +250,7 @@ void ledOff() {
 }
 
 bool isClose() {
-    return abs(currentLocation - targetLocation) == 1;
+    return abs(lastLocation - targetLocation) == 1;
 }
 
 void allStop() {
@@ -258,7 +264,7 @@ void updateStatusLights() {
     if(LOCATION_LIGHTS_ENABLED != 1) return;
     
     for(int i = 0; i < stationCount; i++) {
-        if(i == currentLocation) {
+        if(i == lastLocation) {
             digitalWrite(stations[i], HIGH);
             digitalWrite(stationsa[i], HIGH);
         } else {
@@ -276,26 +282,40 @@ void updateStatusLights() {
 }
 
 void arrived(int location) {
-    bool reversed = isReversed();    // Need to check before setting currentLocation
-    Serial.print("reversed: ");
-    Serial.println(isReversed());
+    bool reversed = isReversed();    // Need to check before setting lastLocation
 
-    Serial.print("Arrived: ");
-    Serial.println(location);
-    currentLocation = location;
+    lastLocation = location;
 
-    if(targetLocation == currentLocation
-        || (reversed  && currentLocation < targetLocation)
-        || (!reversed && currentLocation > targetLocation)
+    if(targetLocation == lastLocation
+        || (reversed  && lastLocation < targetLocation)
+        || (!reversed && lastLocation > targetLocation)
     ) {
+        currentLocation = lastLocation;
         allStop();
-    }
-
-    if(isClose()) {
-        digitalWrite(SLOW, HIGH);
     } else {
-        digitalWrite(SLOW, LOW);
+        if(reversed) {
+            currentLocation = double(lastLocation) - 0.5;
+        } else {
+            currentLocation = double(lastLocation) + 0.5;
+        }
+
+        if(isClose()) {
+            digitalWrite(SLOW, HIGH);
+        } else {
+            digitalWrite(SLOW, LOW);
+        }
     }
+    Serial.print("Arrived: ");
+    Serial.print(location);
+    Serial.print(" | Reversed: ");
+    Serial.print(isReversed());
+    Serial.print(" | Target Location: ");
+    Serial.print(targetLocation);
+    Serial.print(" | Current Location: ");
+    Serial.print(currentLocation);
+    Serial.print(" | Last Location: ");
+    Serial.println(lastLocation);
+
 }
 
 void goTo(int location) {
@@ -316,6 +336,18 @@ void goTo(int location) {
     }
 
     setTrain(go, reverse, slow);
+
+    if(go) {
+        Serial.print("Setting currentLocation: ");
+        Serial.print(lastLocation);
+        Serial.print(" | ");
+        Serial.println(reverse);
+        if(reverse) {
+            currentLocation = lastLocation; // - 0.5;
+        } else {
+            currentLocation = lastLocation; // + 0.5;
+        }
+    }
 }
 
 void setTrain(bool go, bool reverse, bool slow) {
@@ -331,5 +363,5 @@ void setTrain(bool go, bool reverse, bool slow) {
 }
 
 bool isReversed() {
-    return targetLocation < currentLocation;
+    return targetLocation < lastLocation;
 }
