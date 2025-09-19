@@ -80,7 +80,7 @@ const int reedDebounce = 1000;
 const int callDebounce = 250;
 
 double currentLocation = -0.5;
-int lastLocation = 0;
+int lastLocation = -1;
 int targetLocation = -1;
 
 const int stations[] = {STATION1, STATION2, STATION3, STATION4, STATION5, STATION6, STATION7, STATION8};
@@ -293,11 +293,11 @@ void arrived(int location) {
         currentLocation = lastLocation;
         allStop();
     } else {
-        if(reversed) {
-            currentLocation = double(lastLocation) - 0.5;
-        } else {
-            currentLocation = double(lastLocation) + 0.5;
-        }
+        // if(reversed) {
+        //     currentLocation = double(lastLocation) - 0.5;
+        // } else {
+        //     currentLocation = double(lastLocation) + 0.5;
+        // }
 
         if(isClose()) {
             digitalWrite(SLOW, HIGH);
@@ -321,7 +321,7 @@ void arrived(int location) {
 void goTo(int location) {
     targetLocation = location;
     if(targetLocation < 0) return;
-
+    currentLocation = lastLocation; //TODO: Remove this to make lastLocation work
     bool go = false;
     bool reverse = false;
     bool slow = false;
@@ -342,11 +342,11 @@ void goTo(int location) {
         Serial.print(lastLocation);
         Serial.print(" | ");
         Serial.println(reverse);
-        if(reverse) {
-            currentLocation = lastLocation; // - 0.5;
-        } else {
-            currentLocation = lastLocation; // + 0.5;
-        }
+        // if(reverse) {
+        //     currentLocation = lastLocation; // - 0.5;
+        // } else {
+        //     currentLocation = lastLocation; // + 0.5;
+        // }
     }
 }
 
