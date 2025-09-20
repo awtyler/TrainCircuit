@@ -59,9 +59,9 @@
 #define TARGET7A A15
 #define TARGET8A 53
 
-#define MANUAL_REV A4   // GREEN
-#define MANUAL_FST A8   // BLUE
-#define MANUAL_FWD A12 // BROWN
+#define JOYSTICK_REV A4   // GREEN
+#define JOYSTICK_FST A8   // BLUE
+#define JOYSTICK_FWD A12  // BROWN
 
 #define LED 13
 
@@ -113,6 +113,10 @@ void setup() {
     pinMode(SLOW, OUTPUT);
     pinMode(REVERSE, OUTPUT);
 
+    pinMode(JOYSTICK_FWD, INPUT_PULLUP);
+    pinMode(JOYSTICK_FST, INPUT_PULLUP);
+    pinMode(JOYSTICK_REV, INPUT_PULLUP);
+    
     for(int i = 0; i < stationCount; i++) {
         pinMode(reeds[i], INPUT_PULLUP);
         pinMode(calls[i], INPUT_PULLUP);
@@ -136,15 +140,30 @@ void setup() {
 }
 
 void loop() {
+    bool manualControl = false;
+    if(digitalRead(JOYSTICK_FWD) == PRESSED || digitalRead(JOYSTICK_REV) == PRESSED) {
+        bool slow = digitalRead(JOYSTICK_FST) != PRESSED;
+        bool reverse = digitalRead(JOYSTICK_REV) == PRESSED;
+        setTrain(true, reverse, slow);
+        manualControl = true;
+    }
+
+    // Reed switch handling
     for (int i = 0; i < stationCount; i++) {
-        // Reed switch handling
         if (debounceInput(reeds[i], lastReedState[i], lastReedDebounceTime[i], reedDebounceDelay, reedState[i])) {
             if (reedState[i] == PRESSED && i != lastLocation) {
                 arrived(i);
             }
         }
+    }
 
-        // Call button handling
+    if(manualControl) {
+        targetLocation = -1;
+        return;
+    }
+
+    // Call button handling
+    for (int i = 0; i < stationCount; i++) {
         if (debounceInput(calls[i], lastCallButtonState[i], lastCallDebounceTime[i], callDebounceDelay, callButtonState[i])) {
             if (callButtonState[i] == PRESSED) {
                 if (i == targetLocation) {
